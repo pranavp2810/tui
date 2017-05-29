@@ -62,6 +62,7 @@ class list_checkbox
 		virtual	void focus();	//will move to desired checkbox
 		virtual void result(int x, int y); //will print checked items
 		virtual void box(int x, int y);	//prints border around items
+    private:
 		checkbox *ini; //initial node in the list
 	protected:
 		int count_;	//used to store the number of checkboxes in the list_checkbox

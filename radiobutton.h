@@ -30,6 +30,7 @@ class list_radiobutton : public list_checkbox
 		void show(int x, int y, bool dir);
 		void focus();	//will move to desired radiobutton
 		void result (int x, int y);
+        void box(int x, int y);
 	private:
 		void check(radiobutton *current);
 		radiobutton *ini;
@@ -281,5 +282,42 @@ void list_radiobutton::result(int x, int y)
 	}
 }
 
+//prints border around items
+
+void list_radiobutton::box(int x, int y)
+{
+	radiobutton *temp = this->ini;
+	int maxlen=0;
+	gotoxy(x+1,y);
+
+	for(;temp;temp=temp->next())
+	{
+		if(temp->name().size()>maxlen) maxlen = temp->name().size();
+	}
+
+	for(int i=0; i<maxlen +SHOWLEN +1; i++)
+	{
+		cprintf ("-");
+	}
+
+	for(int i=0;i<this->count();i++)
+	{
+		gotoxy(x,y+1+i);
+		cprintf("|");
+		for(int i=0;i<maxlen+SHOWLEN+1;i++)
+		{
+			cprintf(" ");
+		}
+		cprintf("|");
+	}
+
+	gotoxy(x+1,y+this->count()+1);
+
+	for(int i=0;i<maxlen+SHOWLEN+1;i++)
+	{
+		cprintf("-");
+	}
+	this->show(x+2,y+1,0);
+}
 
 #endif
