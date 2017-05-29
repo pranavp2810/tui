@@ -61,7 +61,7 @@ class list_checkbox
 		virtual void show(int x, int y, bool dir);	//used to display the checkbox options
 		virtual	void focus();	//will move to desired checkbox
 		virtual void result(int x, int y); //will print checked items
-	private:
+		virtual void box(int x, int y);	//prints border around items
 		checkbox *ini; //initial node in the list
 	protected:
 		int count_;	//used to store the number of checkboxes in the list_checkbox
@@ -183,6 +183,8 @@ list_checkbox::list_checkbox()
 	count_ = 0;
 	ini = NULL;
 }
+
+//list_checkbox destructor
 
 list_checkbox::~list_checkbox()
 {
@@ -320,6 +322,7 @@ void list_checkbox::focus()
 }
 
 //prints the checked items
+
 void list_checkbox::result(int x, int y)
 {
 	checkbox *temp = this->ini;
@@ -348,6 +351,44 @@ void list_checkbox::result(int x, int y)
 		temp=temp->next();
 		y++;
 	}
+}
+
+//prints border around items
+
+void list_checkbox::box(int x, int y)
+{
+	checkbox *temp = this->ini;
+	int maxlen=0;
+	gotoxy(x+1,y);
+
+	for(;temp;temp=temp->next())
+	{
+		if(temp->name().size()>maxlen) maxlen = temp->name().size();
+	}
+
+	for(int i=0; i<maxlen +SHOWLEN +1; i++)
+	{
+		cprintf ("-");
+	}
+
+	for(int i=0;i<this->count();i++)
+	{
+		gotoxy(x,y+1+i);
+		cprintf("|");
+		for(int i=0;i<maxlen+SHOWLEN+1;i++)
+		{
+			cprintf(" ");
+		}
+		cprintf("|");
+	}
+
+	gotoxy(x+1,y+this->count()+1);
+
+	for(int i=0;i<maxlen+SHOWLEN+1;i++)
+	{
+		cprintf("-");
+	}
+	this->show(x+2,y+1,0);
 }
 
 #endif
